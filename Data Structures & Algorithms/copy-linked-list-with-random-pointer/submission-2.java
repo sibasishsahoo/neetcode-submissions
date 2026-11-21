@@ -1,0 +1,55 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        Connect(head);
+        Rconnect(head);
+        return findHead(head);
+    }
+    private void Connect(Node head){
+         Node temp = head;
+         while(temp!=null){
+            Node copy = new Node(temp.val);
+            copy.next = temp.next;
+            temp.next = copy;
+            temp = temp.next.next;
+         }
+    }
+    private void Rconnect(Node head){
+        Node temp = head;
+        while(temp!=null){
+            Node copyNode = temp.next;
+            if(temp.random!=null){
+            copyNode.random = temp.random.next;
+            }else{
+                copyNode.random = null;
+            }
+            temp = temp.next.next;
+        }
+    }
+    private Node findHead(Node head){
+        Node dummy = new Node(0);
+        Node temp = head;
+        Node res = dummy;
+        while(temp!=null){
+            res.next = temp.next;
+            temp.next = temp.next.next;
+            res = res.next;
+            temp = temp.next;
+        }
+        return dummy.next;
+    }
+}
